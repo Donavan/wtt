@@ -37,6 +37,11 @@ module WTT
         change_count = 0
         
         @tests = Set.new
+
+        mapping.unmapped_tests.each do |test|
+          @tests << test
+        end
+        
         diff.each_patch do |patch|
           change_count += 1
           file = patch.delta.old_file[:path]

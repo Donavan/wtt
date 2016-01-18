@@ -73,6 +73,10 @@ module WTT
         tests
       end
 
+      def unmapped_tests
+        @mapping.select { |_test, spectra| spectra.count == 0 }.keys
+      end
+
       private
 
       # Convert absolute path to relative path from the project (Git repository) root.

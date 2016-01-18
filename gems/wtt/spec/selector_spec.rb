@@ -35,6 +35,7 @@ RSpec.describe WTT::Core do
     end
 
 
+
     context 'with an anchored commit' do
       def anchored_opts(patchset, test_files)
         mock_target = mock_target(patchset)
@@ -65,6 +66,47 @@ RSpec.describe WTT::Core do
 
       it 'includes any test that changed when selecting tests' do
         selector = WTT::Core::Selector.new anchored_opts('patchset_1', ['spec/test_spec'])
+        tests = selector.select_tests!
+        expect(tests).to include('spec/test_spec')
+      end
+    end
+
+
+    context 'with unmappable files ' do
+      def unmappable_opts(patchset, test_files)
+        mock_target = mock_target(patchset)
+        repo = mock_repo(mock_target)
+
+        walker = instance_double('Rugged::Walker')
+        allow(walker).to receive(:sorting)
+        allow(walker).to receive(:push)
+        allow(walker).to receive(:find) { MockCommit.new }
+
+        meta = instance_double( 'WTT::Core::MetaData' )
+
+        opts = {
+            meta_data: meta,
+            repo: repo,
+            walker: walker,
+            test_files: test_files,
+            mapping: WTT::Core::Mapper.new( mock_storage( 'mapping_2' ) )
+        }
+        allow(meta).to receive(:anchored_commit) { nil }
+        allow(repo).to receive(:lookup) { mock_target }
+        opts
+      end
+
+
+      it 'selects tests for files that changed' do
+        selector = WTT::Core::Selector.new unmappable_opts('patchset_1', [])
+        tests = selector.select_tests!
+        expect(tests).to include('some_test_id')
+        expect(tests).to include('another_test_id')
+        expect(tests).to include('no_cover_id')
+      end
+
+      it 'includes any test that changed when selecting tests' do
+        selector = WTT::Core::Selector.new unmappable_opts('patchset_1', ['spec/test_spec'])
         tests = selector.select_tests!
         expect(tests).to include('spec/test_spec')
       end
