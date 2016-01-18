@@ -10,7 +10,7 @@ module WTT
       def initialize
         @coverage = Hash.new { |h, k| h[k] = [] }
         @trace = TracePoint.new(:line) do |tp|
-          if should_include_file?( tp.path )
+          if should_include_file?(tp.path)
             old_count = @coverage[tp.path][tp.lineno].to_i
             @coverage[tp.path][tp.lineno] = old_count + 1
           end
@@ -30,7 +30,7 @@ module WTT
         stop_trace
         results = @coverage.dup
         start_trace
-        return results
+        results
       end
 
       private
@@ -40,7 +40,7 @@ module WTT
       end
 
       def should_include_file?(path)
-        !WTT.configuration.reject_filters.any? {|f| f.match(path)}
+        !WTT.configuration.reject_filters.any? { |f| f.match(path) }
       end
     end
   end

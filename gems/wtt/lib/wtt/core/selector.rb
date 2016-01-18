@@ -21,7 +21,6 @@ module WTT
         @target_revision = @repo.lookup(opts[:target_sha]) if opts[:target_sha]
       end
 
-
       # Select tests using differences in anchored commit and target commit
       # (or current working tree) and {TestToCodeMapping}.
       #
@@ -35,13 +34,12 @@ module WTT
         return Set.new(@test_files) unless @base_obj
 
         change_count = 0
-        
         @tests = Set.new
 
         mapping.unmapped_tests.each do |test|
           @tests << test
         end
-        
+
         diff.each_patch do |patch|
           change_count += 1
           file = patch.delta.old_file[:path]
@@ -59,10 +57,8 @@ module WTT
       private
 
       def diff
-        opts = {
-            include_untracked: true,
-            recurse_untracked_dirs: true
-        }
+        opts = { include_untracked: true,
+                 recurse_untracked_dirs: true }
         defined?(@target_revision) ? @base_obj.diff(@target_revision, opts) : @base_obj.diff_workdir(opts)
       end
 
@@ -80,7 +76,6 @@ module WTT
       def select_tests_from_patch(patch)
         target_lines = Set.new
         file = patch.delta.old_file[:path]
-
 
         patch.each_hunk do |hunk|
           target_lines.merge target_lines_from_hunk(hunk)

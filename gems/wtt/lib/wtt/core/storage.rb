@@ -2,7 +2,7 @@ require 'rugged'
 
 module WTT
   module Core
-    # A utility class to store WTT data such as test-to-code mapping and metadata.
+    # A utility class to store test-to-code mapping and metadata.
     class Storage
       # Initialize the storage from given repo and sha. This reads contents from
       # a `.wtt` file. When sha is not nil, contents of the file on that commit
@@ -30,12 +30,11 @@ module WTT
       #
       # @param section [String]
       # @param value [Hash]
-      # rubocop:disable Metrics/AbcSize
       def write!(section, value)
-        fail 'Data cannot be written to the storage back in git history' unless @sha.nil?
+        fail 'Data cannot be written back in git history' unless @sha.nil?
         File.open(WTT::Core.wtt_root, File::RDWR | File::CREAT, 0644) do |f|
           f.flock(File::LOCK_EX)
-          data = data_from_str( f.read )
+          data = data_from_str(f.read)
           data[section] = value
           f.rewind
           f.write(data.to_json)
@@ -43,7 +42,6 @@ module WTT
           f.truncate(f.pos)
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       private
 
@@ -74,7 +72,6 @@ module WTT
         end
         tree[filename]
       end
-
 
       def read_storage_content
         if @sha

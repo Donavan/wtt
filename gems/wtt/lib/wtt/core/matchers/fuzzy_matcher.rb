@@ -8,7 +8,7 @@ module WTT
     module Matchers
       # Matches if the line that changed is within "spread" distance
       class Fuzzy
-        def initialize(spread=11)
+        def initialize(spread = 11)
           @spread = spread
         end
 

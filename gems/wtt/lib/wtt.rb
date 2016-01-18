@@ -29,26 +29,25 @@ module WTT
 
   def self.configure
     yield(configuration) if block_given?
-    self.configuration.matcher ||= touch_matcher
-    self.configuration.default_reject_filters if self.configuration.use_default_filters
+    configuration.matcher ||= touch_matcher
+    configuration.default_reject_filters if configuration.use_default_filters
   end
 
   def self.start_service
-    port = self.configuration.traced_port
-    if port > 0 && self.trace_service.nil?
+    port = configuration.traced_port
+    if port > 0 && trace_service.nil?
       uri = "druby://localhost:#{port}"
       self.trace_service = DRb.start_service(uri, Core::TraceService.new)
     end
-    self.trace_service
+    trace_service
   end
 
   def self.stop_service
-    unless self.trace_service.nil?
-      DRb.remove_server(self.trace_service)
+    unless trace_service.nil?
+      DRb.remove_server(trace_service)
       DRb.stop_service
       self.trace_service = nil
     end
-
   end
 
   def self.exact_matcher
@@ -63,6 +62,7 @@ module WTT
     Core::Matchers::Fuzzy.new(spread)
   end
 
+  # Holds all config info fopr WTT
   class Configuration
     attr_accessor :traced_port
     attr_accessor :reject_filters
@@ -86,12 +86,10 @@ module WTT
       @remotes << uri
     end
 
-
     def default_reject_filters
-      @reject_filters.concat( [ /_spec.rb$/,      # Reject spec files,
-                          /spec\//,       # Reject anything in the spec folder or below
-                          /\/lib\/ruby\/|\/gems\/gems\/|usr\/share\/ruby\//   # Reject any Ruby gem/libraries
-       ])
+      @reject_filters.concat([/_spec.rb$/, # Reject spec files,
+                              %r{spec/}, # Reject anything in the spec folder or below
+                              %r{/lib/ruby/|/gems/gems/|usr/share/ruby/}]) # Reject any Ruby gem/libraries
     end
   end
 end

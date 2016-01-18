@@ -46,7 +46,7 @@ RSpec.describe WTT::Core do
       end
 
       it 'refuses to write to a historical file' do
-        expect{ @storage.write!('test_section', @test_hash) }.to raise_error('Data cannot be written to the storage back in git history')
+        expect{ @storage.write!('test_section', @test_hash) }.to raise_error('Data cannot be written back in git history')
       end
 
     end

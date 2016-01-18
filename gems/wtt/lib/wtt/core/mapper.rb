@@ -69,7 +69,7 @@ module WTT
           next unless lines
           tests << test if matcher.match(lines, lineno)
         end
-        warn "No tests found for #{file}:#{lineno}." if file.end_with?( '.rb' )
+        warn "No tests found for #{file}:#{lineno}." if file.end_with?('.rb')
         tests
       end
 
@@ -112,7 +112,6 @@ module WTT
       def spectra_from_coverage(cov)
         spectra = Hash.new { |h, k| h[k] = [] }
         cov.each do |filename, executions|
-
           executions.each_with_index do |execution, i|
             next if execution.nil? || execution == 0
             spectra[filename] << i + 1
@@ -126,7 +125,6 @@ module WTT
       # @param cov [Hash] coverage data generated using `Simplecov.result`
       # @return [Hash] spectra data
       def spectra_from_simplecov(cov)
-
         spectra = Hash.new { |h, k| h[k] = [] }
         cov.files.each do |file|
           filename = file.filename

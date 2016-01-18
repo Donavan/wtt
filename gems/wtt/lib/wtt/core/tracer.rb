@@ -35,8 +35,8 @@ module WTT
 
       def merge_remote_coverage!(local, remote)
         remote.each do |filename, remote_coverage|
-          if local.has_key? (filename)
-            remote_coverage.each_with_index do |v, i |
+          if local.key?(filename)
+            remote_coverage.each_with_index do |v, i|
               # We have to do this dance because the arrays contain nils
               current = local[filename][i].to_i
               local[filename][i] = current + v.to_i
@@ -47,13 +47,12 @@ module WTT
         end
       end
 
-
       def start_remotes
-        @remotes.each { |r| r.start_trace }
+        @remotes.each(&:start_trace)
       end
 
       def stop_remotes
-        @remotes.each { |r| r.stop_trace }
+        @remotes.each(&:stop_trace)
       end
 
       def reset_coverage
@@ -61,13 +60,12 @@ module WTT
       end
 
       def should_include_file?(path)
-        !WTT.configuration.reject_filters.any? {|f| f.match(path)}
+        !WTT.configuration.reject_filters.any? { |f| f.match(path) }
       end
 
       def tracepoint
         @trace ||= TracePoint.new(:line, :call, :return) do |tp|
-
-          if should_include_file?( tp.path )
+          if should_include_file?(tp.path)
             old_count = @coverage[tp.path][tp.lineno].to_i
             @coverage[tp.path][tp.lineno] = old_count + 1
           end
@@ -81,8 +79,8 @@ module WTT
       end
 
       def connect_remote(remote_uri)
+        service = DRbObject.new_with_uri(remote_uri)
         begin
-          service = DRbObject.new_with_uri(remote_uri)
           # Ask for the (empty) coverage to see if the service is live
           service.coverage
           @remotes << service

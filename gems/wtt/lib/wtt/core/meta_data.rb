@@ -18,7 +18,7 @@ module WTT
         @data['anchored_commit']
       end
 
-      def anchored_commit=( val )
+      def anchored_commit=(val)
         @data['anchored_commit'] = val
       end
 
