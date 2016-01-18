@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+require 'wtt'
+require 'simplecov'
+require 'simplecov-html'
+SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
+SimpleCov.command_name 'WTT'
+SimpleCov.coverage_dir('wtt_coverage')
+
+repo = Rugged::Repository.discover(Dir.pwd)
+storage = WTT::Core::Storage.new( repo )
+mapper = WTT::Core::Mapper.new( storage )
+
+coverage = Hash.new { |h, k| h[k] = [] }
+
+mapper.mapping.each do |_test, test_coverage|
+
+  test_coverage.each do |file, lines|
+    source_file = "#{WTT::Core.rake_root}/#{file}"
+    lines.each do |line_no|
+      old_count = coverage[source_file][line_no - 1].to_i
+      coverage[source_file][line_no - 1] = old_count + 1
+    end
+  end
+end
+
+result = SimpleCov::Result.new(coverage)
+result.format!
+puts 'WTT coverage report saved to ./wtt_coverage'

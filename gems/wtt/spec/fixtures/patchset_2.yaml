@@ -1,0 +1,93 @@
+---
+- !ruby/object:MockPatch
+  hunks:
+  - !ruby/object:MockHunk
+    lines:
+    - !ruby/object:MockHunkLine
+      line_origin: :context
+      old_lineno: 1
+      old_start: 2
+      addition: false
+    - !ruby/object:MockHunkLine
+      line_origin: :addition
+      old_lineno: -1
+      old_start: 1
+      addition: true
+    - !ruby/object:MockHunkLine
+      line_origin: :context
+      old_lineno: 3
+      old_start: 3
+      addition: false
+    - !ruby/object:MockHunkLine
+      line_origin: :addition
+      old_lineno: -1
+      old_start: 3
+      addition: true
+    delta: !ruby/object:MockDelta
+      filename: lib/file3.rb
+  - !ruby/object:MockHunk
+    lines:
+    - !ruby/object:MockHunkLine
+      line_origin: :context
+      old_lineno: 3
+      old_start: 4
+      addition: false
+    - !ruby/object:MockHunkLine
+      line_origin: :addition
+      old_lineno: -1
+      old_start: 3
+      addition: true
+    - !ruby/object:MockHunkLine
+      line_origin: :context
+      old_lineno: 5
+      old_start: 5
+      addition: false
+    - !ruby/object:MockHunkLine
+      line_origin: :addition
+      old_lineno: -1
+      old_start: 5
+      addition: true
+  delta: !ruby/object:MockDelta
+    filename: lib/file2.rb
+- !ruby/object:MockPatch
+  hunks:
+  - !ruby/object:MockHunk
+    lines:
+    - !ruby/object:MockHunkLine
+      line_origin: :addition
+      old_lineno: -1
+      old_start: 2
+      addition: true
+    - !ruby/object:MockHunkLine
+      line_origin: :context
+      old_lineno: 4
+      old_start: 5
+      addition: false
+    - !ruby/object:MockHunkLine
+      line_origin: :deletion
+      old_lineno: 4
+      old_start: 4
+      addition: true
+  delta: !ruby/object:MockDelta
+    filename: lib/file8
+- !ruby/object:MockPatch
+  hunks:
+  - !ruby/object:MockHunk
+    lines:
+    - !ruby/object:MockHunkLine
+      line_origin: :addition
+      old_lineno: -1
+      old_start: 2
+      addition: true
+    - !ruby/object:MockHunkLine
+      line_origin: :context
+      old_lineno: 4
+      old_start: 5
+      addition: false
+    - !ruby/object:MockHunkLine
+      line_origin: :deletion
+      old_lineno: 4
+      old_start: 4
+      addition: true
+  delta: !ruby/object:MockDelta
+    filename: spec/test_spec2

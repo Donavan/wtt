@@ -1,0 +1,45 @@
+---
+  meta:
+    anchored_commit: some_sha
+  mapping:
+    some_test_id:
+      lib/file1.rb:
+        - 1
+        - 2
+      lib/file2.rb:
+        - 1
+        - 4
+        - 12
+        - 19
+        - 27
+        - 34
+        - 45
+        - 57
+    another_test_id:
+      lib/file1.rb:
+        - 1
+        - 2
+        - 33
+      lib/file3.rb:
+        - 1
+        - 4
+        - 12
+        - 19
+        - 27
+        - 34
+        - 45
+        - 57
+    a_third_test_id:
+      lib/file1.rb:
+        - 35
+        - 40
+        - 50
+      lib/file3.rb:
+        - 1
+        - 4
+        - 13
+        - 19
+        - 27
+        - 34
+        - 45
+        - 57

@@ -1,0 +1,19 @@
+# Offense count: 2
+Metrics/AbcSize:
+  Max: 23
+
+# Offense count: 3
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 17
+
+# Offense count: 2
+# Cop supports --auto-correct.
+# Configuration parameters: IndentWhenRelativeTo, SupportedStyles, IndentOneStep.
+Style/CaseIndentation:
+  Enabled: false
+
+# Offense count: 2
+Style/ClassVars:
+  Exclude:
+    - 'lib/wtt/core/paths.rb'
