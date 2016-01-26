@@ -2,6 +2,6 @@
 module WTT
   # Functionality core to WTT belongs here
   module Core
-    VERSION = '0.1.16'.freeze
+    VERSION = '0.1.17'.freeze
   end
 end

@@ -36,10 +36,6 @@ module WTT
         change_count = 0
         @tests = Set.new
 
-        mapping.unmapped_tests.each do |test|
-          @tests << test
-        end
-
         diff.each_patch do |patch|
           change_count += 1
           file = patch.delta.old_file[:path]
@@ -51,6 +47,15 @@ module WTT
         end
         @tests.delete(nil)
         puts "WTT found #{@tests.count} tests for #{change_count} changes."
+
+        unmapped = 0
+        mapping.unmapped_tests.each do |test|
+          unmapped += 1
+          @tests << test
+        end
+        @tests.delete(nil)
+        puts "WTT found #{unmapped} tests with no mapping that will be executed."
+
         @tests
       end
 
