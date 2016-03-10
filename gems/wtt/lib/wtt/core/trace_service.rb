@@ -8,13 +8,8 @@ module WTT
       attr_reader :coverage
 
       def initialize
-        @coverage = Hash.new { |h, k| h[k] = [] }
-        @trace = TracePoint.new(:line) do |tp|
-          if should_include_file?(tp.path)
-            old_count = @coverage[tp.path][tp.lineno].to_i
-            @coverage[tp.path][tp.lineno] = old_count + 1
-          end
-        end
+        reset_coverage
+        hook_tracepoint
       end
 
       def start_trace
@@ -34,6 +29,15 @@ module WTT
       end
 
       private
+
+      def hook_tracepoint
+        @trace = TracePoint.new(:line) do |tp|
+          if should_include_file?(tp.path)
+            old_count = @coverage[tp.path][tp.lineno].to_i
+            @coverage[tp.path][tp.lineno] = old_count + 1
+          end
+        end
+      end
 
       def reset_coverage
         @coverage = Hash.new { |h, k| h[k] = [] }
