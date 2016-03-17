@@ -142,12 +142,12 @@ Multiple remotes can be added by calling add_remote again and passing a differen
 
 
 ## How it works
-### Mappping
+### Mapping
 First the WTT "Map Task" runs each test and gathers code coverage for individual test scenarios using the Tracepoint API in Ruby 2.x.  Data from any remotes is merged with the local coverage data to produce a map. 
 
 After the map has been generated the WTT can use it to determine which tests to run. 
 
 ### Executing
-The WTT spec task will interrogate your repo to determine which source files have changed.  Using the patchset, it will select tests which cover the files (and lines within the files) that have changed.  If a test has been modified it will likewise be slected to be run.
+The WTT spec task will interrogate your repo to determine which source files have changed.  Using the patchset, it will select tests which cover the files (and lines within the files) that have changed.  If a test has been modified it will likewise be selected to be run.
 
 
